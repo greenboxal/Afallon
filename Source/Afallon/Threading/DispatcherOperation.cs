@@ -16,15 +16,14 @@ namespace System.Windows.Threading
     {
         internal OperationQueue.Node QueueNode;
 
-        private bool _isAsync;
-        private DispatcherPriority _priority;
-
         private ExecutionContext _context;
         private readonly DispatcherOperationTaskProxy _taskProxy;
         private readonly Delegate _method;
         private readonly object _args;
         private readonly int _argumentMode;
+        private readonly bool _isAsync;
 
+        private DispatcherPriority _priority;
         private Exception _exception;
         private object _result;
 

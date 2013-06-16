@@ -9,20 +9,46 @@ namespace SimpleTest
 {
     class Program
     {
-        public class A : DispatcherObject
+        static void Main()
         {
-            public void Run()
+            Dispatcher d = Dispatcher.CurrentDispatcher;
+            Action a = delegate
             {
-                Dispatcher.ExitAllFrames();
-            }
+                object x = d;
+                d.Invoke(DispatcherPriority.Normal, new Action(mine));
+                Console.WriteLine("Task");
+            };
+
+            d.BeginInvoke(DispatcherPriority.Normal, (Action)delegate
+            {
+                Console.WriteLine("First");
+            });
+            d.BeginInvoke(DispatcherPriority.Normal, (Action)delegate
+            {
+                Console.WriteLine("Second");
+                d.BeginInvokeShutdown(DispatcherPriority.SystemIdle);
+            });
+            d.BeginInvoke(DispatcherPriority.Send, (Action)delegate
+            {
+                Console.WriteLine("High Priority");
+                d.BeginInvoke(DispatcherPriority.Send, (Action)delegate
+                {
+                    Console.WriteLine("INSERTED");
+                });
+            });
+            d.BeginInvoke(DispatcherPriority.SystemIdle, (Action)delegate
+            {
+                Console.WriteLine("Idle");
+            });
+
+            Dispatcher.Run();
+
+            Console.ReadLine();
         }
 
-        static void Main(string[] args)
+        static void mine()
         {
-            A a = new A();
-
-            Dispatcher.CurrentDispatcher.BeginInvoke(new Action(a.Run));
-            Dispatcher.Run();
+            Console.WriteLine("Mine");
         }
     }
 }

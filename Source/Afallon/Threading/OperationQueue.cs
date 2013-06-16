@@ -90,12 +90,12 @@ namespace System.Windows.Threading
             {
                 Node node = _root;
 
-                while (node.Next != null && node.Value.Priority > newNode.Value.Priority)
+                while (node.Next != null && node.Value.Priority >= newNode.Value.Priority)
                     node = node.Next;
 
                 if (node == _root)
                 {
-                    newNode.Next = node.Next;
+                    newNode.Next = node;
                     node.Previous = newNode;
                     _root = newNode;
                 }

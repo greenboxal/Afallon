@@ -20,10 +20,6 @@ namespace System.Windows.Threading
     {
         private TaskCompletionSource<T> _taskCompletionSource;
 
-        public DispatcherOperationTaskProxy()
-        {
-        }
-
         public override void Initialize(DispatcherOperation operation)
         {
             _taskCompletionSource = new TaskCompletionSource<T>(operation);

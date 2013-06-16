@@ -179,12 +179,12 @@ namespace System.Windows.Threading
 
         public void BeginInvokeShutdown(DispatcherPriority priority)
         {
-            BeginInvoke(priority, new Action(InstanceStartShutdown));
+            BeginInvoke(priority, new Action(InstanceStartShutdownSecurityProxy));
         }
 
         public void InvokeShutdown()
         {
-            Invoke(DispatcherPriority.Send, new Action(InstanceStartShutdown));
+            Invoke(DispatcherPriority.Send, new Action(InstanceStartShutdownSecurityProxy));
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -574,6 +574,13 @@ namespace System.Windows.Threading
             }
         }
 
+        [SecuritySafeCritical]
+        private void InstanceStartShutdownSecurityProxy()
+        {
+            InstanceStartShutdown();
+        }
+
+        [SecurityCritical]
         private void InstanceStartShutdown()
         {
             if (!_startingShutdown)
@@ -591,6 +598,7 @@ namespace System.Windows.Threading
             }
         }
 
+        [SecurityCritical]
         private void InstanceShutdown()
         {
             if (!IsShutdownFinished)
