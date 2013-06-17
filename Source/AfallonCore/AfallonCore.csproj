@@ -7,7 +7,7 @@
     <ProjectGuid>{BA6E976D-4664-4CCD-AFAD-3119AFE830DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Windows</RootNamespace>
+    <RootNamespace>System</RootNamespace>
     <AssemblyName>PresentationCore</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -7,7 +7,7 @@
     <ProjectGuid>{5D0D35C3-F4EF-4316-90A0-FFCF53CDF198}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Windows</RootNamespace>
+    <RootNamespace>System</RootNamespace>
     <AssemblyName>PresentationFramework</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResourceDictionaryLocation.cs" />
-    <Compile Include="ThemeInfoAttribute.cs" />
+    <Compile Include="System.Windows\ResourceDictionaryLocation.cs" />
+    <Compile Include="System.Windows\ThemeInfoAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

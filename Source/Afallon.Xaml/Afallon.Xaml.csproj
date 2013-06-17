@@ -7,7 +7,7 @@
     <ProjectGuid>{C85FC6F0-92C0-4920-8CBE-2E4E558D28D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Windows.Markup</RootNamespace>
+    <RootNamespace>System</RootNamespace>
     <AssemblyName>System.Xaml</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INameScope.cs" />
-    <Compile Include="INameScopeDictionary.cs" />
+    <Compile Include="System.Xaml\INameScope.cs" />
+    <Compile Include="System.Xaml\INameScopeDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
     <ProjectGuid>{13E65BE9-59EC-42EB-99CA-1A5CE6497135}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Windows</RootNamespace>
+    <RootNamespace>System</RootNamespace>
     <AssemblyName>WindowsBase</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,48 +50,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Callbacks.cs" />
-    <Compile Include="Consts.cs" />
-    <Compile Include="Data\DataSourceProvider.cs" />
-    <Compile Include="DependencyObject.cs" />
-    <Compile Include="DependencyObjectType.cs" />
-    <Compile Include="DependencyProperty.cs" />
-    <Compile Include="DependencyPropertyKey.cs" />
-    <Compile Include="Expression.cs" />
-    <Compile Include="Freezable.cs" />
-    <Compile Include="Int32Rect.cs" />
-    <Compile Include="Markup\XmlnsDefinitionAttribute.cs" />
-    <Compile Include="Markup\XmlnsPrefixAttribute.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="System.IO\FileFormatException.cs" />
+    <Compile Include="System.Windows.Input\FocusNavigationDirection.cs" />
+    <Compile Include="System.Windows.Input\Key.cs" />
+    <Compile Include="System.Windows.Input\KeyConverter.cs" />
+    <Compile Include="System.Windows.Input\KeyValueSerializer.cs" />
+    <Compile Include="System.Windows.Input\ModifierKeys.cs" />
+    <Compile Include="System.Windows.Input\TraversalRequest.cs" />
+    <Compile Include="System.Windows\Callbacks.cs" />
+    <Compile Include="System.Windows\Consts.cs" />
+    <Compile Include="System.Windows.Data\DataSourceProvider.cs" />
+    <Compile Include="System.Windows\DependencyObject.cs" />
+    <Compile Include="System.Windows\DependencyObjectType.cs" />
+    <Compile Include="System.Windows\DependencyProperty.cs" />
+    <Compile Include="System.Windows\DependencyPropertyKey.cs" />
+    <Compile Include="System.Windows\Expression.cs" />
+    <Compile Include="System.Windows\Freezable.cs" />
+    <Compile Include="System.Windows\Int32Rect.cs" />
+    <Compile Include="System.Windows.Markup\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="System.Windows.Markup\XmlnsPrefixAttribute.cs" />
+    <Compile Include="System.Windows\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyMetadata.cs" />
-    <Compile Include="Rect.cs" />
-    <Compile Include="Size.cs" />
-    <Compile Include="Threading\Dispatcher.cs" />
-    <Compile Include="Threading\DispatcherEventArgs.cs" />
-    <Compile Include="Threading\DispatcherFrame.cs" />
-    <Compile Include="Threading\DispatcherHookEventArgs.cs" />
-    <Compile Include="Threading\DispatcherHooks.cs" />
-    <Compile Include="Threading\DispatcherObject.cs" />
-    <Compile Include="Threading\DispatcherOperation.cs" />
-    <Compile Include="Threading\DispatcherOperationStatus.cs" />
-    <Compile Include="Threading\DispatcherOperationTaskProxy.cs" />
-    <Compile Include="Threading\DispatcherOperationWaitEvent.cs" />
-    <Compile Include="Threading\DispatcherOperationWaitFrame.cs" />
-    <Compile Include="Threading\DispatcherPriority.cs" />
-    <Compile Include="Threading\DispatcherPriorityAwaitable.cs" />
-    <Compile Include="Threading\DispatcherPriorityAwaiter.cs" />
-    <Compile Include="Threading\DispatcherProcessingDisabled.cs" />
-    <Compile Include="Threading\DispatcherSynchronizationContext.cs" />
-    <Compile Include="Threading\DispatcherTimer.cs" />
-    <Compile Include="Threading\DispatcherUnhandledExceptionEventArgs.cs" />
-    <Compile Include="Threading\DispatcherUnhandledExceptionFilterEventArgs.cs" />
-    <Compile Include="Threading\ExceptionFilterUtility.cs" />
-    <Compile Include="Threading\OperationQueue.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="System.Windows\PropertyMetadata.cs" />
+    <Compile Include="System.Windows\Rect.cs" />
+    <Compile Include="System.Windows\Size.cs" />
+    <Compile Include="System.Windows.Threading\Dispatcher.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherEventArgs.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherFrame.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherHookEventArgs.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherHooks.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherObject.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherOperation.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherOperationStatus.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherOperationTaskProxy.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherOperationWaitEvent.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherOperationWaitFrame.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherPriority.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherPriorityAwaitable.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherPriorityAwaiter.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherProcessingDisabled.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherSynchronizationContext.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherTimer.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherUnhandledExceptionEventArgs.cs" />
+    <Compile Include="System.Windows.Threading\DispatcherUnhandledExceptionFilterEventArgs.cs" />
+    <Compile Include="System.Windows.Threading\ExceptionFilterUtility.cs" />
+    <Compile Include="System.Windows.Threading\OperationQueue.cs" />
+    <Compile Include="System.Windows\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Afallon.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collections\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
