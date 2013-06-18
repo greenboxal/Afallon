@@ -47,15 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consts.cs" />
+    <Compile Include="System.Windows.Markup\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="System.Windows.Markup\XmlnsPrefixAttribute.cs" />
     <Compile Include="System.Xaml\INameScope.cs" />
     <Compile Include="System.Xaml\INameScopeDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Afallon\Afallon.csproj">
-      <Project>{13e65be9-59ec-42eb-99ca-1a5ce6497135}</Project>
-      <Name>Afallon</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Afallon.snk" />

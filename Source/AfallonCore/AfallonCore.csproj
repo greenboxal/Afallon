@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Afallon.Xaml\Afallon.Xaml.csproj">
+      <Project>{c85fc6f0-92c0-4920-8cbe-2e4e558d28d8}</Project>
+      <Name>Afallon.Xaml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Afallon\Afallon.csproj">
       <Project>{13e65be9-59ec-42eb-99ca-1a5ce6497135}</Project>
       <Name>Afallon</Name>

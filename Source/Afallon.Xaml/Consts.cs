@@ -1,6 +1,6 @@
 // ReSharper disable InconsistentNaming
 
-static class Consts
+static class XamlConsts
 {
     public const string Version = "4.0.0.0";
     public const string Company = "The GreenBox Development";
@@ -18,13 +18,13 @@ static class Consts
     public const string FxFileVersion = "4.0.30319.17020";
 
     public const string VsVersion = "0.0.0.0"; // Useless ?
-    public const string VsFileVersion = "11.0.0.0"; // TODO:
+    public const string VsFileVersion = "11.0.0.0";
 #elif NET_4_0
 	public const string FxVersion = "4.0.0.0";
 	public const string FxFileVersion = "4.0.30319.1";
 
 	public const string VsVersion = "0.0.0.0"; // Useless ?
-	public const string VsFileVersion = "10.0.0.0"; // TODO:
+	public const string VsFileVersion = "10.0.0.0";
 #elif NET_3_5
     // Versions of .NET Framework 3.5 RTM
 	public const string FxVersion = "3.5.0.0";

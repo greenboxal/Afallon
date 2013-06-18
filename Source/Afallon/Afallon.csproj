@@ -53,27 +53,27 @@
     <Compile Include="System.IO\FileFormatException.cs" />
     <Compile Include="System.Windows.Input\FocusNavigationDirection.cs" />
     <Compile Include="System.Windows.Input\Key.cs" />
-    <Compile Include="System.Windows.Input\KeyConverter.cs" />
-    <Compile Include="System.Windows.Input\KeyValueSerializer.cs" />
     <Compile Include="System.Windows.Input\ModifierKeys.cs" />
     <Compile Include="System.Windows.Input\TraversalRequest.cs" />
+    <Compile Include="System.Windows.Markup\DesignerSerializationOptions.cs" />
+    <Compile Include="System.Windows.Media\DisableDpiAwarenessAttribute.cs" />
+    <Compile Include="System.Windows.Media\Matrix.cs" />
+    <Compile Include="System.Windows.Media\MatrixConverter.cs" />
     <Compile Include="System.Windows\Callbacks.cs" />
-    <Compile Include="System.Windows\Consts.cs" />
+    <Compile Include="Consts.cs" />
     <Compile Include="System.Windows.Data\DataSourceProvider.cs" />
     <Compile Include="System.Windows\DependencyObject.cs" />
     <Compile Include="System.Windows\DependencyObjectType.cs" />
     <Compile Include="System.Windows\DependencyProperty.cs" />
     <Compile Include="System.Windows\DependencyPropertyKey.cs" />
-    <Compile Include="System.Windows\Expression.cs" />
     <Compile Include="System.Windows\Freezable.cs" />
-    <Compile Include="System.Windows\Int32Rect.cs" />
-    <Compile Include="System.Windows.Markup\XmlnsDefinitionAttribute.cs" />
-    <Compile Include="System.Windows.Markup\XmlnsPrefixAttribute.cs" />
-    <Compile Include="System.Windows\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System.Windows\Int32Rect.cs" />
+    <Compile Include="System.Windows\Int32RectConverter.cs" />
+    <Compile Include="System.Windows\IWeakEventListener.cs" />
+    <Compile Include="System.Windows\Point.cs" />
+    <Compile Include="System.Windows\PointConverter.cs" />
     <Compile Include="System.Windows\PropertyMetadata.cs" />
-    <Compile Include="System.Windows\Rect.cs" />
-    <Compile Include="System.Windows\Size.cs" />
     <Compile Include="System.Windows.Threading\Dispatcher.cs" />
     <Compile Include="System.Windows.Threading\DispatcherEventArgs.cs" />
     <Compile Include="System.Windows.Threading\DispatcherFrame.cs" />
@@ -95,13 +95,22 @@
     <Compile Include="System.Windows.Threading\DispatcherUnhandledExceptionFilterEventArgs.cs" />
     <Compile Include="System.Windows.Threading\ExceptionFilterUtility.cs" />
     <Compile Include="System.Windows.Threading\OperationQueue.cs" />
+    <Compile Include="System.Windows\Rect.cs" />
+    <Compile Include="System.Windows\RectConverter.cs" />
+    <Compile Include="System.Windows\Size.cs" />
+    <Compile Include="System.Windows\SizeConverter.cs" />
     <Compile Include="System.Windows\Vector.cs" />
+    <Compile Include="System.Windows\VectorConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Afallon.snk" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Collections\" />
+    <ProjectReference Include="..\Afallon.Xaml\Afallon.Xaml.csproj">
+      <Project>{c85fc6f0-92c0-4920-8cbe-2e4e558d28d8}</Project>
+      <Name>Afallon.Xaml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
