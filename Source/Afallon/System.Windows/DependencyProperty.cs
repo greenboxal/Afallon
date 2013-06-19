@@ -11,7 +11,7 @@ namespace System.Windows
         [Flags]
         protected internal enum Flags
         {
-            Inherited = 0x1,
+            Inheritable = 0x1,
             DefaultValueModified = 0x2,
         }
 
@@ -179,9 +179,9 @@ namespace System.Windows
             get { return _readOnlyKey != null; }
         }
 
-        internal bool Inherited
+        internal bool Inheritable
         {
-            get { return (_flags & Flags.Inherited) != 0; }
+            get { return (_flags & Flags.Inheritable) != 0; }
         }
 
         internal bool DefaultValueModified
@@ -294,6 +294,9 @@ namespace System.Windows
 
             if (typeMetadata.DefaultValueSet)
                 _flags |= Flags.DefaultValueModified;
+
+            if (typeMetadata.Inheritable)
+                _flags |= Flags.Inheritable;
         }
     }
 }

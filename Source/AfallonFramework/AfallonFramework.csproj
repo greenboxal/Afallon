@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="System.Windows.Data\UpdateSourceTrigger.cs" />
+    <Compile Include="System.Windows\FrameworkPropertyMetadata.cs" />
     <Compile Include="System.Windows\ResourceDictionaryLocation.cs" />
     <Compile Include="System.Windows\ThemeInfoAttribute.cs" />
   </ItemGroup>

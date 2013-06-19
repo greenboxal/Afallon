@@ -12,7 +12,8 @@ namespace System.Windows
         private enum Flags
         {
             Sealed = 0x1,
-            DefaultValueSet = 0x2
+            DefaultValueSet = 0x2,
+            Inheritable = 0x4,
         }
 
         private Flags _flags;
@@ -70,6 +71,18 @@ namespace System.Windows
             get { return (_flags & Flags.DefaultValueSet) != 0; }
         }
 
+        internal bool Inheritable
+        {
+            get { return (_flags & Flags.Inheritable) != 0; }
+            set
+            {
+                if (value)
+                    _flags |= Flags.Inheritable;
+                else
+                    _flags &= ~Flags.Inheritable;
+            }
+        }
+
         public PropertyMetadata()
         {
             
@@ -84,7 +97,14 @@ namespace System.Windows
         public PropertyMetadata(PropertyChangedCallback propertyChangedCallback)
         {
             _propertyChangedCallback = propertyChangedCallback;
-        } 
+        }
+
+        public PropertyMetadata(object defaultValue, PropertyChangedCallback propertyChangedCallback)
+        {
+            _defaultValue = defaultValue;
+            _propertyChangedCallback = propertyChangedCallback;
+            _flags |= Flags.DefaultValueSet;
+        }
 
         public PropertyMetadata(object defaultValue, PropertyChangedCallback propertyChangedCallback, CoerceValueCallback coerceValueCallback)
         {
