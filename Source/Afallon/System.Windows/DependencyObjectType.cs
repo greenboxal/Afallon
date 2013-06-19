@@ -38,7 +38,7 @@ namespace System.Windows
         private readonly Type _type;
         private readonly DependencyObjectType _baseType;
 
-        private Dictionary<int, object> _metadataMap;
+        private Dictionary<int, PropertyMetadata> _metadataMap;
 
         public int Id
         {
@@ -71,7 +71,7 @@ namespace System.Windows
                 _baseType = BuildType(type.BaseType);
 
             lock (DependencyObjectTypeLock)
-                _id = _typeIdCounter++;
+                _id = ++_typeIdCounter;
         }
 
         public bool IsSubclassOf(DependencyObjectType dependencyObjectType)
@@ -96,30 +96,22 @@ namespace System.Windows
             return _id;
         }
 
-        internal void SetMetadata<T>(DependencyProperty<T> dependencyProperty, PropertyMetadata<T> metadata)
+        internal void SetMetadata(DependencyProperty dependencyProperty, PropertyMetadata metadata)
         {
             if (_metadataMap == null)
-                _metadataMap = new Dictionary<int, object>();
+                _metadataMap = new Dictionary<int, PropertyMetadata>();
 
             _metadataMap[dependencyProperty.GlobalIndex] = metadata;
         }
 
-        internal bool TryGetMetadata<T>(DependencyProperty<T> dependencyProperty, out PropertyMetadata<T> metadata)
+        internal bool TryGetMetadata(DependencyProperty dependencyProperty, out PropertyMetadata metadata)
         {
-            object placeholder;
-
             metadata = null;
 
             if (_metadataMap == null)
                 return _baseType == null || _baseType.TryGetMetadata(dependencyProperty, out metadata);
 
-            if (_metadataMap.TryGetValue(dependencyProperty.GlobalIndex, out placeholder))
-            {
-                metadata = (PropertyMetadata<T>)placeholder;
-                return true;
-            }
-
-            return false;
+            return _metadataMap.TryGetValue(dependencyProperty.GlobalIndex, out metadata);
         }
     }
 }

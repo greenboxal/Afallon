@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace System.Windows
 {
-    public sealed class DependencyPropertyKey<T>
+    public sealed class DependencyPropertyKey
     {
-        private readonly DependencyProperty<T> _dp;
+        private readonly DependencyProperty _dp;
 
-        public DependencyProperty<T>  DependencyProperty
+        public DependencyProperty  DependencyProperty
         {
             get { return _dp; }
         }
         
-        internal DependencyPropertyKey(DependencyProperty<T> dependencyProperty)
+        internal DependencyPropertyKey(DependencyProperty dependencyProperty)
         {
             _dp = dependencyProperty;
         }
 
-        public void OverrideMetadata(Type forType, PropertyMetadata<T> typeMetadata)
+        public void OverrideMetadata(Type forType, PropertyMetadata typeMetadata)
         {
             _dp.OverrideMetadata(forType, typeMetadata, this);
         }

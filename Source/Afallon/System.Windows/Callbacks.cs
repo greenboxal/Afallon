@@ -6,46 +6,20 @@ using System.Threading.Tasks;
 
 namespace System.Windows
 {
-    public delegate void PropertyChangedCallback<T>(DependencyObject d, DependencyPropertyChangedEventArgs<T> e);
-    public delegate T CoerceValueCallback<T>(DependencyObject d, T baseValue);
-    public delegate void DependencyPropertyChangedEventHandler<T>(object sender, DependencyPropertyChangedEventArgs<T> e);
-    public delegate bool ValidateValueCallback<in T>(T value);
+    public delegate void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e);
+    public delegate object CoerceValueCallback(DependencyObject d, object baseValue);
+    public delegate void DependencyPropertyChangedEventHandler(object sender, DependencyPropertyChangedEventArgs e);
+    public delegate bool ValidateValueCallback(object value);
 
-    public class DependencyPropertyChangedEventArgs
+    public struct DependencyPropertyChangedEventArgs
     {
-        public DependencyProperty Property
-        {
-            get;
-            private set;
-        }
 
-        internal DependencyPropertyChangedEventArgs(DependencyProperty property)
-        {
-            Property = property;
-        }
-    }
+        public object NewValue { get; private set; }
+        public object OldValue { get; private set; }
+        public DependencyProperty Property { get; private set; }
 
-    public class DependencyPropertyChangedEventArgs<T> : DependencyPropertyChangedEventArgs
-    {
-        public T NewValue
-        {
-            get;
-            private set;
-        }
-
-        public T OldValue
-        {
-            get;
-            private set;
-        }
-
-        public new DependencyProperty<T> Property
-        {
-            get { return (DependencyProperty<T>)base.Property; }
-        }
-
-        public DependencyPropertyChangedEventArgs(DependencyProperty<T> property, T oldValue, T newValue)
-            : base(property)
+        public DependencyPropertyChangedEventArgs(DependencyProperty property, object oldValue, object newValue)
+            :this()
         {
             OldValue = oldValue;
             NewValue = newValue;
@@ -55,31 +29,32 @@ namespace System.Windows
         {
             if (ReferenceEquals(null, obj))
                 return false;
-            return obj is DependencyPropertyChangedEventArgs<T> && Equals((DependencyPropertyChangedEventArgs<T>)obj);
+
+            return obj is DependencyPropertyChangedEventArgs && Equals((DependencyPropertyChangedEventArgs)obj);
         }
 
-        public bool Equals(DependencyPropertyChangedEventArgs<T> args)
+        public bool Equals(DependencyPropertyChangedEventArgs other)
         {
-            return EqualityComparer<T>.Default.Equals(NewValue, args.NewValue) && EqualityComparer<T>.Default.Equals(OldValue, args.OldValue) && Equals(Property, args.Property);
+            return Equals(NewValue, other.NewValue) && Equals(OldValue, other.OldValue) && Equals(Property, other.Property);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int hashCode = EqualityComparer<T>.Default.GetHashCode(NewValue);
-                hashCode = (hashCode * 397) ^ EqualityComparer<T>.Default.GetHashCode(OldValue);
+                int hashCode = (NewValue != null ? NewValue.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (OldValue != null ? OldValue.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (Property != null ? Property.GetHashCode() : 0);
                 return hashCode;
             }
         }
 
-        public static bool operator !=(DependencyPropertyChangedEventArgs<T> left, DependencyPropertyChangedEventArgs<T> right)
+        public static bool operator !=(DependencyPropertyChangedEventArgs left, DependencyPropertyChangedEventArgs right)
         {
             return !left.Equals(right);
         }
 
-        public static bool operator ==(DependencyPropertyChangedEventArgs<T> left, DependencyPropertyChangedEventArgs<T> right)
+        public static bool operator ==(DependencyPropertyChangedEventArgs left, DependencyPropertyChangedEventArgs right)
         {
             return left.Equals(right);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System.Windows
 {
-    public class PropertyMetadata<T>
+    public class PropertyMetadata
     {
         [Flags]
         private enum Flags
@@ -16,23 +16,26 @@ namespace System.Windows
         }
 
         private Flags _flags;
-        private T _defaultValue;
-        private PropertyChangedCallback<T> _propertyChangedCallback;
-        private CoerceValueCallback<T> _coerceValueCallback;
+        private object _defaultValue;
+        private PropertyChangedCallback _propertyChangedCallback;
+        private CoerceValueCallback _coerceValueCallback;
 
-        public T DefaultValue
+        public object DefaultValue
         {
             get { return _defaultValue; }
             set
             {
                 VerifySealed();
 
+                if (value == DependencyProperty.UnsetValue)
+                    throw new ArgumentException("Default value cannot be unset");
+
                 _defaultValue = value;
                 _flags |= Flags.DefaultValueSet;
             }
         }
 
-        public PropertyChangedCallback<T> PropertyChangedCallback
+        public PropertyChangedCallback PropertyChangedCallback
         {
             get { return _propertyChangedCallback; }
             set
@@ -42,7 +45,7 @@ namespace System.Windows
             }
         }
 
-        public CoerceValueCallback<T> CoerceValueCallback
+        public CoerceValueCallback CoerceValueCallback
         {
             get { return _coerceValueCallback; }
             set
@@ -72,18 +75,18 @@ namespace System.Windows
             
         }
 
-        public PropertyMetadata(T defaultValue)
+        public PropertyMetadata(object defaultValue)
         {
             _defaultValue = defaultValue;
             _flags |= Flags.DefaultValueSet;
         }
 
-        public PropertyMetadata(PropertyChangedCallback<T> propertyChangedCallback)
+        public PropertyMetadata(PropertyChangedCallback propertyChangedCallback)
         {
             _propertyChangedCallback = propertyChangedCallback;
         } 
 
-        public PropertyMetadata(T defaultValue, PropertyChangedCallback<T> propertyChangedCallback, CoerceValueCallback<T> coerceValueCallback)
+        public PropertyMetadata(object defaultValue, PropertyChangedCallback propertyChangedCallback, CoerceValueCallback coerceValueCallback)
         {
             _defaultValue = defaultValue;
             _propertyChangedCallback = propertyChangedCallback;
@@ -97,7 +100,7 @@ namespace System.Windows
                 throw new InvalidOperationException("Can't change a sealed object");
         }
 
-        protected virtual void Merge(PropertyMetadata<T> baseMetadata, DependencyProperty dp)
+        protected virtual void Merge(PropertyMetadata baseMetadata, DependencyProperty dp)
         {
             VerifySealed();
 
@@ -119,7 +122,7 @@ namespace System.Windows
             
         }
 
-        internal void Apply(DependencyProperty<T> dp, PropertyMetadata<T> baseMetadata, Type targetType)
+        internal void Apply(DependencyProperty dp, PropertyMetadata baseMetadata, Type targetType)
         {
             Merge(baseMetadata, dp);
             OnApply(dp, targetType);

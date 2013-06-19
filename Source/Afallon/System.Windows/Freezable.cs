@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System.Windows
 {
-    class Freezable
+    public class Freezable : DependencyObject
     {
     }
 }

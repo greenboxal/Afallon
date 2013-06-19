@@ -28,5 +28,60 @@ namespace System.Windows
         {
             DependencyObjectType = DependencyObjectType.FromSystemType(GetType());
         }
+
+        public void ClearValue(DependencyProperty dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearValue(DependencyPropertyKey dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CoerceValue(DependencyProperty dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetValue(DependencyProperty dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InvalidateProperty(DependencyProperty dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LocalValueEnumerator GetLocalValueEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object ReadLocalValue(DependencyProperty dp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetCurrentValue(DependencyProperty dp, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(DependencyProperty dp, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(DependencyPropertyKey dp, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

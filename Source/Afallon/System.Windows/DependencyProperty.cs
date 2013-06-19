@@ -8,25 +8,6 @@ namespace System.Windows
 {
     public class DependencyProperty
     {
-        internal static readonly object DependencyPropertyLock = new Object();
-        private static int _propertyIdCounter;
-
-        public int GlobalIndex { get; private set; }
-        public string Name { get; private set; }
-        public Type OwnerType { get; private set; }
-
-        internal DependencyProperty(string name, Type ownerType)
-        {
-            lock (DependencyPropertyLock)
-                GlobalIndex = _propertyIdCounter++;
-
-            Name = name;
-            OwnerType = ownerType;
-        }
-    }
-
-    public class DependencyProperty<T> : DependencyProperty
-    {
         [Flags]
         protected internal enum Flags
         {
@@ -34,58 +15,63 @@ namespace System.Windows
             DefaultValueModified = 0x2,
         }
 
-        public static DependencyProperty<T> Register(string name, Type ownerType)
+        public static readonly object UnsetValue = new Object();
+
+        internal static readonly object DependencyPropertyLock = new Object();
+        private static int _propertyIdCounter;
+
+        public static DependencyProperty Register(string name, Type propertyType, Type ownerType)
         {
-            return Register(name, ownerType, null, null);
+            return Register(name, propertyType, ownerType, null, null);
         }
 
-        public static DependencyProperty<T> Register(string name, Type ownerType, PropertyMetadata<T> typeMetadata)
+        public static DependencyProperty Register(string name, Type propertyType, Type ownerType, PropertyMetadata typeMetadata)
         {
-            return Register(name, ownerType, typeMetadata, null);
+            return Register(name, propertyType, ownerType, typeMetadata, null);
         }
 
-        public static DependencyProperty<T> RegisterAttached(string name, Type ownerType)
+        public static DependencyProperty RegisterAttached(string name, Type propertyType, Type ownerType)
         {
-            return RegisterAttached(name, ownerType, null, null);
+            return RegisterAttached(name, propertyType, ownerType, null, null);
         }
 
-        public static DependencyProperty<T> RegisterAttached(string name, Type ownerType,
-                                                             PropertyMetadata<T> defaultMetadata)
+        public static DependencyProperty RegisterAttached(string name, Type propertyType, Type ownerType,
+                                                             PropertyMetadata defaultMetadata)
         {
-            return RegisterAttached(name, ownerType, defaultMetadata, null);
+            return RegisterAttached(name, propertyType, ownerType, defaultMetadata, null);
         }
 
-        public static DependencyProperty<T> RegisterAttached(string name, Type ownerType,
-                                                             PropertyMetadata<T> defaultMetadata,
-                                                             ValidateValueCallback<T> validateValueCallback)
+        public static DependencyProperty RegisterAttached(string name, Type propertyType, Type ownerType,
+                                                             PropertyMetadata defaultMetadata,
+                                                             ValidateValueCallback validateValueCallback)
         {
-            return RegisterCore(name, ownerType, defaultMetadata, validateValueCallback, false);
+            return RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, false);
         }
 
-        public static DependencyPropertyKey<T> RegisterReadOnly(string name, Type ownerType,
-                                                             PropertyMetadata<T> typeMetadata)
+        public static DependencyPropertyKey RegisterReadOnly(string name, Type propertyType, Type ownerType,
+                                                             PropertyMetadata typeMetadata)
         {
-            return RegisterReadOnly(name, ownerType, typeMetadata, null);
+            return RegisterReadOnly(name, propertyType, ownerType, typeMetadata, null);
         }
 
-        public static DependencyPropertyKey<T> RegisterAttachedReadOnly(string name, Type ownerType,
-                                                                     PropertyMetadata<T> defaultMetadata)
+        public static DependencyPropertyKey RegisterAttachedReadOnly(string name, Type propertyType, Type ownerType,
+                                                                     PropertyMetadata defaultMetadata)
         {
-            return RegisterAttachedReadOnly(name, ownerType, defaultMetadata, null);
+            return RegisterAttachedReadOnly(name, propertyType, ownerType, defaultMetadata, null);
         }
 
-        public static DependencyPropertyKey<T> RegisterAttachedReadOnly(string name, Type ownerType,
-                                                                     PropertyMetadata<T> defaultMetadata,
-                                                                     ValidateValueCallback<T> validateValueCallback)
+        public static DependencyPropertyKey RegisterAttachedReadOnly(string name, Type propertyType, Type ownerType,
+                                                                     PropertyMetadata defaultMetadata,
+                                                                     ValidateValueCallback validateValueCallback)
         {
-            return RegisterCore(name, ownerType, defaultMetadata, validateValueCallback, true)._readOnlyKey;
+            return RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, true)._readOnlyKey;
         }
 
-        public static DependencyProperty<T> Register(string name, Type ownerType, PropertyMetadata<T> typeMetadata,
-                                                     ValidateValueCallback<T> validateValueCallback)
+        public static DependencyProperty Register(string name, Type propertyType, Type ownerType, PropertyMetadata typeMetadata,
+                                                     ValidateValueCallback validateValueCallback)
         {
-            DependencyProperty<T> dependencyProperty;
-            PropertyMetadata<T> defaultMetadata = null;
+            DependencyProperty dependencyProperty;
+            PropertyMetadata defaultMetadata = null;
 
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -97,9 +83,9 @@ namespace System.Windows
                 throw new ArgumentNullException("ownerType");
 
             if (typeMetadata != null && typeMetadata.DefaultValueSet)
-                defaultMetadata = new PropertyMetadata<T>(typeMetadata.DefaultValue);
+                defaultMetadata = new PropertyMetadata(typeMetadata.DefaultValue);
 
-            dependencyProperty = RegisterCore(name, ownerType, defaultMetadata, validateValueCallback, false);
+            dependencyProperty = RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, false);
 
             if (typeMetadata != null)
                 dependencyProperty.OverrideMetadata(ownerType, typeMetadata);
@@ -107,12 +93,12 @@ namespace System.Windows
             return dependencyProperty;
         }
 
-        public static DependencyPropertyKey<T> RegisterReadOnly(string name, Type ownerType,
-                                                             PropertyMetadata<T> typeMetadata,
-                                                             ValidateValueCallback<T> validateValueCallback)
+        public static DependencyPropertyKey RegisterReadOnly(string name, Type propertyType, Type ownerType,
+                                                             PropertyMetadata typeMetadata,
+                                                             ValidateValueCallback validateValueCallback)
         {
-            DependencyProperty<T> dependencyProperty;
-            PropertyMetadata<T> defaultMetadata = null;
+            DependencyProperty dependencyProperty;
+            PropertyMetadata defaultMetadata = null;
 
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -124,9 +110,10 @@ namespace System.Windows
                 throw new ArgumentNullException("ownerType");
 
             if (typeMetadata != null && typeMetadata.DefaultValueSet)
-                defaultMetadata = new PropertyMetadata<T>(typeMetadata.DefaultValue);
+                defaultMetadata = new PropertyMetadata(typeMetadata.DefaultValue);
 
-            dependencyProperty = RegisterCore(name, ownerType, defaultMetadata, validateValueCallback, true);
+            dependencyProperty = RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback,
+                                              true);
 
             if (typeMetadata != null)
                 dependencyProperty.OverrideMetadata(ownerType, typeMetadata, dependencyProperty._readOnlyKey);
@@ -134,19 +121,40 @@ namespace System.Windows
             return dependencyProperty._readOnlyKey;
         }
 
-        public static DependencyProperty<T> RegisterCore(string name, Type ownerType,
-                                                         PropertyMetadata<T> defaultMetadata,
-                                                         ValidateValueCallback<T> validateValueCallback,
+        public static DependencyProperty RegisterCore(string name, Type propertyType, Type ownerType,
+                                                         PropertyMetadata defaultMetadata,
+                                                         ValidateValueCallback validateValueCallback,
                                                          bool readOnly)
         {
-            return new DependencyProperty<T>(name, ownerType, defaultMetadata, validateValueCallback, readOnly);
+            return new DependencyProperty(name, propertyType, ownerType, defaultMetadata, validateValueCallback, readOnly);
         }
 
-        private readonly DependencyPropertyKey<T> _readOnlyKey;
+        private static bool CheckTypeValue(object value, Type type)
+        {
+            if (value == null)
+            {
+                if (type.IsValueType &&
+                    !(type.IsGenericType && type.GetGenericTypeDefinition() == type))
+                    return false;
+            }
+            else
+            {
+                if (!type.IsInstanceOfType(value))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private readonly DependencyPropertyKey _readOnlyKey;
         private Flags _flags;
 
-        public PropertyMetadata<T> DefaultMetadata { get; private set; }
-        public ValidateValueCallback<T> ValidateValueCallback { get; private set; }
+        public int GlobalIndex { get; private set; }
+        public string Name { get; private set; }
+        public Type PropertyType { get; private set; }
+        public Type OwnerType { get; private set; }
+        public PropertyMetadata DefaultMetadata { get; private set; }
+        public ValidateValueCallback ValidateValueCallback { get; private set; }
         
         public bool ReadOnly
         {
@@ -163,23 +171,28 @@ namespace System.Windows
             get { return (_flags & Flags.DefaultValueModified) != 0; }
         }
 
-        internal DependencyProperty(string name, Type ownerType, PropertyMetadata<T> defaultMetadata,
-                                    ValidateValueCallback<T> validateValueCallback, bool readOnly)
-            : base(name, ownerType)
+        internal DependencyProperty(string name, Type propertyType, Type ownerType, PropertyMetadata defaultMetadata,
+                                    ValidateValueCallback validateValueCallback, bool readOnly)
         {
+            lock (DependencyPropertyLock)
+                GlobalIndex = _propertyIdCounter++;
+
+            Name = name;
+            PropertyType = propertyType;
+            OwnerType = ownerType;
             DefaultMetadata = defaultMetadata;
             ValidateValueCallback = validateValueCallback;
 
             if (readOnly)
-                _readOnlyKey = new DependencyPropertyKey<T>(this);
+                _readOnlyKey = new DependencyPropertyKey(this);
         }
 
-        public DependencyProperty<T> AddOwner(Type ownerType)
+        public DependencyProperty AddOwner(Type ownerType)
         {
             return AddOwner(ownerType, null);
         }
 
-        public DependencyProperty<T> AddOwner(Type ownerType, PropertyMetadata<T> typeMetadata)
+        public DependencyProperty AddOwner(Type ownerType, PropertyMetadata typeMetadata)
         {
             if (ownerType == null)
                 throw new ArgumentNullException("ownerType");
@@ -190,23 +203,23 @@ namespace System.Windows
             return this;
         }
 
-        public PropertyMetadata<T> GetMetadata(Type systemType)
+        public PropertyMetadata GetMetadata(Type systemType)
         {
             return GetMetadata(DependencyObjectType.FromSystemType(systemType));
         }
 
-        public PropertyMetadata<T> GetMetadata(DependencyObject dependencyObject)
+        public PropertyMetadata GetMetadata(DependencyObject dependencyObject)
         {
             return GetMetadata(dependencyObject.DependencyObjectType);
         }
 
-        public PropertyMetadata<T> GetMetadata(DependencyObjectType dependencyObjectType)
+        public PropertyMetadata GetMetadata(DependencyObjectType dependencyObjectType)
         {
-            PropertyMetadata<T> metadata;
+            PropertyMetadata metadata;
             return !dependencyObjectType.TryGetMetadata(this, out metadata) ? DefaultMetadata : metadata;
         }
 
-        public void OverrideMetadata(Type forType, PropertyMetadata<T> typeMetadata)
+        public void OverrideMetadata(Type forType, PropertyMetadata typeMetadata)
         {
             if (_readOnlyKey != null)
                 throw new InvalidOperationException("Can't override readonly property using this method");
@@ -214,7 +227,7 @@ namespace System.Windows
             OverrideMetadataCore(forType, typeMetadata);
         }
 
-        public void OverrideMetadata(Type forType, PropertyMetadata<T> typeMetadata, DependencyPropertyKey<T> key)
+        public void OverrideMetadata(Type forType, PropertyMetadata typeMetadata, DependencyPropertyKey key)
         {
             if (_readOnlyKey == null)
                 throw new InvalidOperationException("Can't override non-readonly property using this method");
@@ -225,12 +238,23 @@ namespace System.Windows
             OverrideMetadataCore(forType, typeMetadata);
         }
 
-        public bool IsValidValue(T value)
+        public bool IsValidType(object value)
         {
-            return ValidateValueCallback == null || ValidateValueCallback(value);
+            return CheckTypeValue(value, PropertyType);
         }
 
-        private void OverrideMetadataCore(Type forType, PropertyMetadata<T> typeMetadata)
+        public bool IsValidValue(object value)
+        {
+            if (!CheckTypeValue(value, PropertyType))
+                return false;
+
+            if (ValidateValueCallback != null)
+                return ValidateValueCallback(value);
+
+            return true;
+        } 
+
+        private void OverrideMetadataCore(Type forType, PropertyMetadata typeMetadata)
         {
             if (forType == null)
                 throw new ArgumentNullException("forType");
@@ -242,7 +266,7 @@ namespace System.Windows
                 throw new ArgumentException("Type metadata already in use", "typeMetadata");
 
             DependencyObjectType type = DependencyObjectType.FromSystemType(forType);
-            PropertyMetadata<T> baseMetadata = GetMetadata(type.BaseType);
+            PropertyMetadata baseMetadata = GetMetadata(type.BaseType);
 
             if (!baseMetadata.GetType().IsInstanceOfType(typeMetadata))
                 throw new ArgumentException("Type metadata doesn't match base metadata type", "typeMetadata");
