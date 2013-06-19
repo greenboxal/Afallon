@@ -66,6 +66,7 @@
     <Compile Include="System.Windows\DependencyObjectType.cs" />
     <Compile Include="System.Windows\DependencyProperty.cs" />
     <Compile Include="System.Windows\DependencyPropertyKey.cs" />
+    <Compile Include="System.Windows\Expression.cs" />
     <Compile Include="System.Windows\Freezable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System.Windows\Int32Rect.cs" />

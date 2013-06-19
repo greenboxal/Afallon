@@ -41,13 +41,6 @@ namespace System.Windows
             return RegisterAttached(name, propertyType, ownerType, defaultMetadata, null);
         }
 
-        public static DependencyProperty RegisterAttached(string name, Type propertyType, Type ownerType,
-                                                             PropertyMetadata defaultMetadata,
-                                                             ValidateValueCallback validateValueCallback)
-        {
-            return RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, false);
-        }
-
         public static DependencyPropertyKey RegisterReadOnly(string name, Type propertyType, Type ownerType,
                                                              PropertyMetadata typeMetadata)
         {
@@ -67,6 +60,25 @@ namespace System.Windows
             return RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, true)._readOnlyKey;
         }
 
+        public static DependencyProperty RegisterAttached(string name, Type propertyType, Type ownerType,
+                                                             PropertyMetadata defaultMetadata,
+                                                             ValidateValueCallback validateValueCallback)
+        {
+            if (name == null)
+                throw new ArgumentNullException("name");
+
+            if (name.Length == 0)
+                throw new ArgumentException("Name can't be empty", "name");
+
+            if (propertyType == null)
+                throw new ArgumentNullException("ownerType");
+
+            if (ownerType == null)
+                throw new ArgumentNullException("ownerType");
+
+            return RegisterCore(name, propertyType, ownerType, defaultMetadata, validateValueCallback, false);
+        }
+
         public static DependencyProperty Register(string name, Type propertyType, Type ownerType, PropertyMetadata typeMetadata,
                                                      ValidateValueCallback validateValueCallback)
         {
@@ -78,6 +90,9 @@ namespace System.Windows
 
             if (name.Length == 0)
                 throw new ArgumentException("Name can't be empty", "name");
+
+            if (propertyType == null)
+                throw new ArgumentNullException("ownerType");
 
             if (ownerType == null)
                 throw new ArgumentNullException("ownerType");
@@ -105,6 +120,9 @@ namespace System.Windows
 
             if (name.Length == 0)
                 throw new ArgumentException("Name can't be empty", "name");
+
+            if (propertyType == null)
+                throw new ArgumentNullException("ownerType");
 
             if (ownerType == null)
                 throw new ArgumentNullException("ownerType");
@@ -216,7 +234,7 @@ namespace System.Windows
         public PropertyMetadata GetMetadata(DependencyObjectType dependencyObjectType)
         {
             PropertyMetadata metadata;
-            return !dependencyObjectType.TryGetMetadata(this, out metadata) ? DefaultMetadata : metadata;
+            return dependencyObjectType.TryGetMetadata(this, out metadata) ? metadata : DefaultMetadata;
         }
 
         public void OverrideMetadata(Type forType, PropertyMetadata typeMetadata)

@@ -21,6 +21,7 @@ namespace System.Windows
         public DependencyPropertyChangedEventArgs(DependencyProperty property, object oldValue, object newValue)
             :this()
         {
+            Property = property;
             OldValue = oldValue;
             NewValue = newValue;
         }

@@ -8,48 +8,45 @@ using System.Windows.Threading;
 
 namespace SimpleTest
 {
+    class Test : DependencyObject
+    {
+        public static readonly DependencyProperty NameProperty =
+            DependencyProperty.Register("Name", typeof(string), typeof(Test), new PropertyMetadata(default(string), NameChanged, CoerceName), ValidateName);
+
+        private static bool ValidateName(object value)
+        {
+            Console.WriteLine("Validating value: {0}", value);
+            return true;
+        }
+
+        private static object CoerceName(DependencyObject d, object baseValue)
+        {
+            Console.WriteLine("Coercing value: {0}", baseValue);
+            return "Test " + (string)baseValue;
+        }
+
+        private static void NameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Console.WriteLine("Value changed from {0} to {1}", e.OldValue, e.NewValue);
+        }
+
+        public string Name
+        {
+            get { return (string)GetValue(NameProperty); }
+            set { SetValue(NameProperty, value); }
+        }
+    }
+
     class Program
     {
         static void Main()
         {
-            Dispatcher d = Dispatcher.CurrentDispatcher;
-            Action a = delegate
-            {
-                object x = d;
-                d.Invoke(DispatcherPriority.Normal, new Action(mine));
-                Console.WriteLine("Task");
-            };
+            Test test = new Test();
 
-            d.BeginInvoke(DispatcherPriority.Normal, (Action)delegate
-            {
-                Console.WriteLine("First");
-            });
-            d.BeginInvoke(DispatcherPriority.Normal, (Action)delegate
-            {
-                Console.WriteLine("Second");
-                d.BeginInvokeShutdown(DispatcherPriority.SystemIdle);
-            });
-            d.BeginInvoke(DispatcherPriority.Send, (Action)delegate
-            {
-                Console.WriteLine("High Priority");
-                d.BeginInvoke(DispatcherPriority.Send, (Action)delegate
-                {
-                    Console.WriteLine("INSERTED");
-                });
-            });
-            d.BeginInvoke(DispatcherPriority.SystemIdle, (Action)delegate
-            {
-                Console.WriteLine("Idle");
-            });
+            test.Name = "HUE HUE HUE";
 
-            Dispatcher.Run();
-
+            Console.WriteLine("Value: {0}", test.Name);
             Console.ReadLine();
-        }
-
-        static void mine()
-        {
-            Console.WriteLine("Mine");
         }
     }
 }

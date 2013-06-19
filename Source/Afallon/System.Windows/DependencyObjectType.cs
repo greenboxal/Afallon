@@ -109,7 +109,7 @@ namespace System.Windows
             metadata = null;
 
             if (_metadataMap == null)
-                return _baseType == null || _baseType.TryGetMetadata(dependencyProperty, out metadata);
+                return _baseType != null && _baseType.TryGetMetadata(dependencyProperty, out metadata);
 
             return _metadataMap.TryGetValue(dependencyProperty.GlobalIndex, out metadata);
         }
